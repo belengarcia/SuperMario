@@ -25,16 +25,18 @@ bullets
 
 function Mario(ctx) {
     this.ctx = ctx;
-    this.x = ctx.canvas.width/20;
+    this.x0 = ctx.canvas.width/20;
+    this.x = this.x0;
     this.width = 100;
     this.height = this.width*3/4;
-    this.y = ctx.canvas.height - this.height - 60;
+    this.y0 = ctx.canvas.height - this.height - 60;
+    this.y = this.y0;
 
     this.vx = 0;
     this.vy = 0;
 
-    this.g = 0;
-    //en un futuro: this.vy, this.v, this.g
+    this.g = 1;
+
 
     this.img = new Image();
     this.img.src = 'img/mario.png'
@@ -72,7 +74,7 @@ Mario.prototype.animate = function (){
 
 }
 
-Mario.prototype.move = function (){
+Mario.prototype.move = function (b){
 
     if (this.countFrames % this.img.animateEvery === 0) {
         this.animate();
@@ -81,15 +83,41 @@ Mario.prototype.move = function (){
 
     this.x += this.vx;
     this.y += this.vy;
+
+    if (this.x >= (this.ctx.canvas.width - this.ctx.canvas.width/2)){
+        b.moveForward();
+    } else if (this.x < this.x0){
+        b.moveBackwards();
+    }
+
+    if (this.x <= 0){
+        this.x = 0;
+    }
+    if (this.x + this.width >= this.ctx.canvas.width){
+        this.x = this.ctx.canvas.width - this.width;
+      }
+    if (this.y <= 0){
+        this.y = 0;
+    }
+    if (this.y + this.height >= this.ctx.canvas.height){
+        this.y = this.ctx.canvas.height - this.height;
+    }
+    //por qué no me sale?
+
 }
 
 Mario.prototype.isJumping = function () {
-    
+    return this.y < this.y0; 
+}
+
+Mario.prototype.jump = function (){
+
 }
 
 Mario.prototype.RIGHT = 39;
 Mario.prototype.LEFT = 37;
 Mario.prototype.TOP = 38;
+Mario.prototype.DOWN = 40;
 
 Mario.prototype.onKeyDown = function (code){
     switch (code){
@@ -102,6 +130,9 @@ Mario.prototype.onKeyDown = function (code){
         case this.TOP:
             this.vy = -5;
             break;
+        case this.DOWN:
+            this.vy = 5;
+            break;
     }
 }
 
@@ -113,5 +144,9 @@ Mario.prototype.onKeyUp = function (code){
             break;
         case this.TOP:
             this.vy = 0;
+            break;
+        case this.DOWN:
+            this.vy = 0;
+            break;
     }
 }

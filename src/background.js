@@ -33,3 +33,13 @@ Background.prototype.draw = function() {
         this.height
     )
 }
+
+Background.prototype.moveForward = function() {
+    this.x += this.vBk;
+    if (this.x + this.ctx.canvas.width === this.ctx.canvas.width){
+        debugger;
+    }
+}
+Background.prototype.moveBackwards = function() {
+    this.x -= this.vBk;
+}

@@ -37,7 +37,7 @@ Game.prototype.drawAll = function (){
 }
 
 Game.prototype.moveAll = function (){
-    this.mario.move();
+    this.mario.move(this.bk);
 }
 
 Game.prototype.clearAll = function (){
