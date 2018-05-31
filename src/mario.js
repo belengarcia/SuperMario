@@ -116,9 +116,11 @@ Mario.prototype.move = function (b){
     if (this.y <= 0){
         this.y = 0;
     }
-    if (this.y + this.height >= this.ctx.canvas.height){
-        this.y = this.ctx.canvas.height - this.height;
-    }
+    //if (this.y + this.height >= this.y0){
+    //    this.y = this.ctx.canvas.height - this.height;
+    //    console.log(this.y0);
+    //    console.log(this.y);
+    //}
     //por qué no me sale la y?
 
     //gravedad
@@ -151,7 +153,9 @@ Mario.prototype.onKeyDown = function (code){
             this.vx = -10;
             break;
         case this.TOP:
+            if (!this.isJumping()){
             this.vy = -15;
+            }
             break;
         case this.DOWN:
             this.vy = 5;
@@ -165,9 +169,9 @@ Mario.prototype.onKeyUp = function (code){
         case this.LEFT:
             this.vx = 0;
             break;
-        case this.TOP:
-            this.vy = 0;
-            break;
+        //case this.TOP:
+        //    this.vy = 0;
+        //    break;
         case this.DOWN:
             this.vy = 0;
             break;
