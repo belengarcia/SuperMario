@@ -27,7 +27,7 @@ function Mario(ctx) {
     this.ctx = ctx;
     this.x0 = ctx.canvas.width/20;
     this.x = this.x0;
-    this.width = 100;
+    this.width = 65;
     this.height = this.width*3/4;
     this.y0 = ctx.canvas.height - this.height - 60;
     this.y = this.y0;
@@ -79,7 +79,7 @@ Mario.prototype.animate = function (b){
     }
 };
 
-Mario.prototype.move = function (b){
+Mario.prototype.move = function (b, o){
 
     //para que parezca que anda
     if (this.countFrames % this.img.animateEvery === 0) {
@@ -99,7 +99,7 @@ Mario.prototype.move = function (b){
 
     //para el movimiento hacia adelante y hacia atrás del bk según la posición de Mario
     if (this.x >= (this.ctx.canvas.width - this.ctx.canvas.width / 2)){
-        b.moveForward();
+        b.moveForward(o);
     } else if (this.x < this.x0) {
         if(b.x !== 0) {
             b.moveBackwards();
@@ -157,9 +157,9 @@ Mario.prototype.onKeyDown = function (code){
             this.vy = -15;
             }
             break;
-        case this.DOWN:
-            this.vy = 5;
-            break;
+        //case this.DOWN:
+        //    this.vy = 5;
+        //    break;
     }
 };
 
@@ -172,8 +172,8 @@ Mario.prototype.onKeyUp = function (code){
         //case this.TOP:
         //    this.vy = 0;
         //    break;
-        case this.DOWN:
-            this.vy = 0;
-            break;
+        //case this.DOWN:
+        //    this.vy = 0;
+        //    break;
     }
 };

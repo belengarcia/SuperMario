@@ -15,7 +15,7 @@ function Background(ctx) {
     this.ctx = ctx;
     this.x = 0;
     this.y = 0;
-    this.width = 9000;
+    this.width = 9126;
     this.height = this.ctx.canvas.height;
 
     this.vBk = -5;
@@ -34,8 +34,10 @@ Background.prototype.draw = function() {
     )
 };
 
-Background.prototype.moveForward = function() {
+Background.prototype.moveForward = function(o) {
     this.x += this.vBk;
+    o.move();
+    //para que se pare cuando llega al final
     if (this.x + this.width < this.ctx.canvas.width){
         this.vBk = 0;
     }

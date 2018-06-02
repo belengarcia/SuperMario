@@ -18,6 +18,7 @@ function Game (canvasElement){
     this.ctx = canvasElement.getContext("2d");
     this.bk = new Background(this.ctx);
     this.mario = new Mario(this.ctx);
+    this.testingObs = new Obstacle(this.ctx);
 
     this.setKeyboardListeners();
 }
@@ -34,10 +35,11 @@ Game.prototype.start = function(){
 Game.prototype.drawAll = function (){
     this.bk.draw();
     this.mario.draw();
+    this.testingObs.draw();
 }
 
 Game.prototype.moveAll = function (){
-    this.mario.move(this.bk);
+    this.mario.move(this.bk, this.testingObs);
 }
 
 Game.prototype.clearAll = function (){
