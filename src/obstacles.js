@@ -15,4 +15,12 @@ function Obstacle(ctx, x, y, width, height) {
         this.y,
         this.width, 
         this.height);
+    console.log('Brick', this.x);
+ };
+
+ Obstacle.prototype.collide = function(element) {
+    return !(this.x + this.width < element.x || 
+        element.x + element.width < this.x ||
+        this.y + this.height < element.y ||
+        element.y + element.height < this.y);
  };

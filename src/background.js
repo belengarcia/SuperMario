@@ -18,7 +18,7 @@ function Background(ctx) {
     this.width = 9126;
     this.height = this.ctx.canvas.height;
 
-    this.vBk = -10;
+    this.vx = -20;
 
     this.img = new Image();
     this.img.src = 'img/bk2.png'
@@ -31,20 +31,21 @@ Background.prototype.draw = function() {
         this.y,
         this.width,
         this.height
-    )
+    );
 };
 
 Background.prototype.moveForward = function() {
-    this.x += this.vBk;
+    this.x += this.vx;
     //para que se pare cuando llega al final
     if (this.x + this.width < this.ctx.canvas.width){
-        this.vBk = 0;
+        this.vx = 0;
     }
 
 }
+
 Background.prototype.moveBackwards = function() {
-    this.x -= this.vBk;
+    this.x -= this.vx;
     if (this.x >= 0){
-        this.vBk = 0;
+        this.vx = 0;
     }
 }

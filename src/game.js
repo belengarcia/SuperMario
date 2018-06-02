@@ -13,6 +13,7 @@ Game.prototype.start = function(){
         this.clearAll();
         this.drawAll();
         this.moveAll();
+        this.checkCollisions();
     }.bind(this), 16)
 }
 
@@ -58,8 +59,8 @@ Game.prototype.createObstacles = function () {
     this.obstacles.push(
 
     // tubos piso 0
-    new Obstacle (this.ctx, 688, 365, 46, 46),
-    new Obstacle (this.ctx, 1205, 450, 90, 90),
+    //new Obstacle (this.ctx, 688, 365, 46, 46),
+    //new Obstacle (this.ctx, 1205, 450, 90, 90),
     // new Obstacle(this.ctx, 1635, 407, 90, 132),
     // new Obstacle(this.ctx, 1979, 365, 90, 175),
     // new Obstacle(this.ctx, 2453, 365, 90, 175),
@@ -82,6 +83,10 @@ Game.prototype.createObstacles = function () {
     )
 };
 
+Game.prototype.checkCollisions = function () {
+    this.mario.collide(this.obstacles);
+};
+
 Game.prototype.RIGHT = 39;
 Game.prototype.LEFT = 37;
 Game.prototype.TOP = 38;
@@ -91,7 +96,7 @@ Game.prototype.onKeyDown = function (code){
     this.mario.onKeyDown(code);
     switch (code){
         case this.RIGHT:
-            if(this.mario.x >= (this.ctx.canvas.width - this.ctx.canvas.width / 2)){
+            if(this.mario.x >= (this.ctx.canvas.width - 100)) {
                 this.bk.moveForward();
             }
             break;

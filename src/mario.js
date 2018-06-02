@@ -1,17 +1,22 @@
 function Mario(ctx) {
     this.ctx = ctx;
+    
     this.x0 = ctx.canvas.width/20;
     this.x = this.x0;
+    
     this.width = 65;
     this.height = this.width*3/4;
+    
     this.y0 = ctx.canvas.height - this.height - 60;
     this.y = this.y0;
 
+    
+    
     this.vx = 0;
     this.vy = 0;
+    this.v = 10;
 
     this.g = 0.5;
-
 
     this.img = new Image();
     this.img.src = 'img/mario.png'
@@ -31,7 +36,7 @@ Mario.prototype.draw = function() {
         this.img.width/this.img.frames,
         this.img.height,
 
-        Math.min(this.x, this.ctx.canvas.width - 300),
+        Math.min(this.x, this.ctx.canvas.width - 100),
         this.y,
         this.width,
         this.height
@@ -55,7 +60,6 @@ Mario.prototype.animate = function (){
 };
 
 Mario.prototype.move = function (/*b*/){
-    console.log(this.x);
 
     //para que parezca que anda
     if (this.countFrames % this.img.animateEvery === 0) {
@@ -106,6 +110,25 @@ Mario.prototype.jump = function() {
       this.vy += this.v;
     }
 };
+
+
+Mario.prototype.collide = function(obstacles) {
+
+    var collisions = obstacles.filter(function(obstacle) {
+        return obstacle.collide(this);
+    }.bind(this));
+
+    collisions.forEach(function(obstacle) {
+        if (obstacle instanceof Obstacle){
+            this.collideWithBrick(obstacle);
+            console.log('a');
+        }
+    }.bind(this))
+} 
+
+Mario.prototype.collideWithBrick = function(brick) {
+    // Pizarra
+}
 
 Mario.prototype.RIGHT = 39;
 Mario.prototype.LEFT = 37;
