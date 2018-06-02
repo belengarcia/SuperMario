@@ -1,28 +1,3 @@
-/*
-
-Constructor de Mario (posición e imágen de frames)
-
-Prototipos: 
-
-draw() para que se dibuje
-animation() para que parezca que anda
-jump() para que salte
-move() (
-    animation()
-    jump()
-    controles de alante y atrás
-    agacharse
-)
-
-shoot()
-
-bullets
-
-
-*Para más adelante: pensar en otras posibilidades de Mario
-
-*/
-
 function Mario(ctx) {
     this.ctx = ctx;
     this.x0 = ctx.canvas.width/20;
@@ -34,7 +9,6 @@ function Mario(ctx) {
 
     this.vx = 0;
     this.vy = 0;
-    this.v = 10;
 
     this.g = 0.5;
 
@@ -56,7 +30,8 @@ Mario.prototype.draw = function() {
         0,
         this.img.width/this.img.frames,
         this.img.height,
-        this.x,
+
+        Math.min(this.x, this.ctx.canvas.width - 300),
         this.y,
         this.width,
         this.height
@@ -65,7 +40,7 @@ Mario.prototype.draw = function() {
     this.countFrames++;
 };
 
-Mario.prototype.animate = function (b){
+Mario.prototype.animate = function (){
     if (this.isJumping()) return; // para que cuando salte deje de animar el sprite
 
     if (this.vx != 0 || this.x > this.ctx.canvas.width/2){
@@ -79,11 +54,12 @@ Mario.prototype.animate = function (b){
     }
 };
 
-Mario.prototype.move = function (b, o){
+Mario.prototype.move = function (/*b*/){
+    console.log(this.x);
 
     //para que parezca que anda
     if (this.countFrames % this.img.animateEvery === 0) {
-        this.animate(b);
+        this.animate();
         this.countFrames = 0;
       } 
 
@@ -98,30 +74,22 @@ Mario.prototype.move = function (b, o){
     }
 
     //para el movimiento hacia adelante y hacia atrás del bk según la posición de Mario
-    if (this.x >= (this.ctx.canvas.width - this.ctx.canvas.width / 2)){
-        b.moveForward(o);
-    } else if (this.x < this.x0) {
-        if(b.x !== 0) {
-            b.moveBackwards();
-        }
-    }
+        //if (this.x >= (this.ctx.canvas.width - this.ctx.canvas.width / 2)){
+        //    b.moveForward();
+        //} else if (this.x < this.x0) {
+        //    if(b.x !== 0) {
+        //        b.moveBackwards();
+        //    }
+        //}
 
     //para que Mario no se escape
     if (this.x <= 0){
         this.x = 0;
     }
-    if (this.x + this.width >= this.ctx.canvas.width){
-        this.x = this.ctx.canvas.width - this.width;
-      }
+
     if (this.y <= 0){
         this.y = 0;
     }
-    //if (this.y + this.height >= this.y0){
-    //    this.y = this.ctx.canvas.height - this.height;
-    //    console.log(this.y0);
-    //    console.log(this.y);
-    //}
-    //por qué no me sale la y?
 
     //gravedad
     if (this.isJumping()){
@@ -157,9 +125,6 @@ Mario.prototype.onKeyDown = function (code){
             this.vy = -15;
             }
             break;
-        //case this.DOWN:
-        //    this.vy = 5;
-        //    break;
     }
 };
 
@@ -169,11 +134,5 @@ Mario.prototype.onKeyUp = function (code){
         case this.LEFT:
             this.vx = 0;
             break;
-        //case this.TOP:
-        //    this.vy = 0;
-        //    break;
-        //case this.DOWN:
-        //    this.vy = 0;
-        //    break;
     }
 };
