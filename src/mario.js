@@ -29,6 +29,7 @@ function Mario(ctx) {
 }
 
 Mario.prototype.draw = function() {
+    console.log('mario: ', this.x);
     this.ctx.drawImage(
         this.img,
         this.img.frameIndex * this.img.width / this.img.frames, 
@@ -36,7 +37,7 @@ Mario.prototype.draw = function() {
         this.img.width/this.img.frames,
         this.img.height,
 
-        Math.min(this.x, this.ctx.canvas.width - 100),
+        Math.min(this.x, this.ctx.canvas.width/2),
         this.y,
         this.width,
         this.height
@@ -59,7 +60,7 @@ Mario.prototype.animate = function (){
     }
 };
 
-Mario.prototype.move = function (/*b*/){
+Mario.prototype.move = function (){
 
     //para que parezca que anda
     if (this.countFrames % this.img.animateEvery === 0) {
@@ -68,7 +69,7 @@ Mario.prototype.move = function (/*b*/){
       } 
 
     // movimiento en los ejes
-    this.x += this.vx;
+    //this.x += this.vx;
     this.y += this.vy;
 
     if(this.isJumping()){
@@ -76,15 +77,6 @@ Mario.prototype.move = function (/*b*/){
     } else {
         this.vy = 0;
     }
-
-    //para el movimiento hacia adelante y hacia atrás del bk según la posición de Mario
-        //if (this.x >= (this.ctx.canvas.width - this.ctx.canvas.width / 2)){
-        //    b.moveForward();
-        //} else if (this.x < this.x0) {
-        //    if(b.x !== 0) {
-        //        b.moveBackwards();
-        //    }
-        //}
 
     //para que Mario no se escape
     if (this.x <= 0){
@@ -101,6 +93,14 @@ Mario.prototype.move = function (/*b*/){
     }
 };
 
+Mario.prototype.moveForward = function() {
+    this.x += this.vx;
+}
+
+Mario.moveBackwards = function() {
+    this.x -= this.vx;
+}
+
 Mario.prototype.isJumping = function () {
     return this.y < this.y0; 
 };
@@ -113,7 +113,6 @@ Mario.prototype.jump = function() {
 
 
 Mario.prototype.collide = function(obstacles) {
-
     var collisions = obstacles.filter(function(obstacle) {
         return obstacle.collide(this);
     }.bind(this));
@@ -121,7 +120,7 @@ Mario.prototype.collide = function(obstacles) {
     collisions.forEach(function(obstacle) {
         if (obstacle instanceof Obstacle){
             this.collideWithBrick(obstacle);
-            console.log('a');
+            debugger;
         }
     }.bind(this))
 } 
@@ -138,7 +137,7 @@ Mario.prototype.DOWN = 40;
 Mario.prototype.onKeyDown = function (code){
     switch (code){
         case this.RIGHT:
-            this.vx = 10;
+            this.vx = 15;
             break;
         case this.LEFT:
             this.vx = -10;

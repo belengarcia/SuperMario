@@ -1,16 +1,3 @@
-/*
-1. Crear el constructor del bk (posición e imagen)
-2. Prototipos del bk:
-    - draw(): para que se pinte
-    - move(): para que se mueva por siempre. 
-
-*En un futuro: que el bk cambie según 
-    -tiempo?
-    -monedas conseguidas?
-    
-
-*/
-
 function Background(ctx) {
     this.ctx = ctx;
     this.x = 0;
@@ -18,13 +5,14 @@ function Background(ctx) {
     this.width = 9126;
     this.height = this.ctx.canvas.height;
 
-    this.vx = -20;
+    this.vx = -15;
 
     this.img = new Image();
     this.img.src = 'img/bk2.png'
     }
 
 Background.prototype.draw = function() {
+    console.log('Back: ', this.x);
     this.ctx.drawImage(
         this.img,
         this.x,

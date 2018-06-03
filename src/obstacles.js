@@ -15,7 +15,6 @@ function Obstacle(ctx, x, y, width, height) {
         this.y,
         this.width, 
         this.height);
-    console.log('Brick', this.x);
  };
 
  Obstacle.prototype.collide = function(element) {
