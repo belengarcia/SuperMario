@@ -9,6 +9,7 @@ function Obstacle(ctx, x, y, width, height) {
 }
 
  Obstacle.prototype.draw = function() {
+     console.log('Brick: ', this.x)
     this.ctx.fillStyle = '#FF0000';
     this.ctx.fillRect(
         this.x,

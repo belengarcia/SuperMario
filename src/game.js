@@ -33,6 +33,7 @@ Game.prototype.drawObstacles = function (){
 
 Game.prototype.moveAll = function (){
     this.mario.move();
+    this.bk.move();
 }
 
 Game.prototype.clearAll = function (){
@@ -59,9 +60,9 @@ Game.prototype.createObstacles = function () {
     this.obstacles.push(
 
     // tubos piso 0
-    // new Obstacle (this.ctx, 1205, 450, 90, 90),
+     new Obstacle (this.ctx, 1205, 450, 90, 90),
     // new Obstacle(this.ctx, 1635, 407, 90, 132),
-     new Obstacle(this.ctx, 1979, 365, 90, 175),
+    // new Obstacle(this.ctx, 1979, 365, 90, 175),
     // new Obstacle(this.ctx, 2453, 365, 90, 175),
     // new Obstacle(this.ctx, 7015, 450, 90, 90),
     // new Obstacle(this.ctx, 7705, 450, 90, 90),
@@ -93,24 +94,10 @@ Game.prototype.DOWN = 40;
 
 Game.prototype.onKeyDown = function (code){
     this.mario.onKeyDown(code);
-    switch (code){
-        case this.RIGHT:
-            this.mario.moveForward();
-            if(this.mario.x >= (this.ctx.canvas.width/2)) {
-                this.bk.moveForward();
-            }
-            break;
-        case this.LEFT:
-            this.mario.moveBackwards();
-            if (this.x < this.x0) {
-                if(b.x !== 0) {
-                    b.moveBackwards();
-                }
-            }
-            break;
-    }
+    this.bk.onKeyDown(code, this.mario.x)
 };
 
 Game.prototype.onKeyUp = function (code){
     this.mario.onKeyUp(code);
+    this.bk.onKeyUp(code);
 };

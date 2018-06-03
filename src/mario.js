@@ -29,7 +29,7 @@ function Mario(ctx) {
 }
 
 Mario.prototype.draw = function() {
-    console.log('mario: ', this.x);
+    console.log('Mario: ', this.x);
     this.ctx.drawImage(
         this.img,
         this.img.frameIndex * this.img.width / this.img.frames, 
@@ -69,7 +69,7 @@ Mario.prototype.move = function (){
       } 
 
     // movimiento en los ejes
-    //this.x += this.vx;
+    this.x += this.vx;
     this.y += this.vy;
 
     if(this.isJumping()){
@@ -92,14 +92,6 @@ Mario.prototype.move = function (){
          this.y - this.g;
     }
 };
-
-Mario.prototype.moveForward = function() {
-    this.x += this.vx;
-}
-
-Mario.moveBackwards = function() {
-    this.x -= this.vx;
-}
 
 Mario.prototype.isJumping = function () {
     return this.y < this.y0; 
@@ -137,7 +129,7 @@ Mario.prototype.DOWN = 40;
 Mario.prototype.onKeyDown = function (code){
     switch (code){
         case this.RIGHT:
-            this.vx = 15;
+            this.vx = 10;
             break;
         case this.LEFT:
             this.vx = -10;
