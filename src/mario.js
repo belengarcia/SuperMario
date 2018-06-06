@@ -4,7 +4,7 @@ function Mario(ctx) {
     this.x0 = ctx.canvas.width/20;
     this.x = this.x0;
     
-    this.width = 65;
+    this.width = 55;
     this.height = this.width*3/4;
     
     this.y0 = ctx.canvas.height - this.height - 60;
@@ -14,7 +14,7 @@ function Mario(ctx) {
     
     this.vx = 0;
     this.vy = 0;
-    this.v = 10;
+    this.v = 15;
 
     this.g = 0.5;
 
@@ -29,7 +29,6 @@ function Mario(ctx) {
 }
 
 Mario.prototype.draw = function() {
-    console.log('Mario: ', this.x);
     this.ctx.drawImage(
         this.img,
         this.img.frameIndex * this.img.width / this.img.frames, 
@@ -49,7 +48,7 @@ Mario.prototype.draw = function() {
 Mario.prototype.animate = function (){
     if (this.isJumping()) return; // para que cuando salte deje de animar el sprite
 
-    if (this.vx != 0 || this.x > this.ctx.canvas.width/2){
+    if (this.vx != 0){
         this.img.frameIndex++;
   
         if (this.img.frameIndex >= this.img.frames) {
@@ -73,11 +72,17 @@ Mario.prototype.move = function (){
     this.y += this.vy;
 
     if(this.isJumping()){
+
         this.vy += this.g;
     } else {
         this.vy = 0;
     }
 
+    this.checkMarioIsInsideScreen();
+
+};
+
+Mario.prototype.checkMarioIsInsideScreen = function(){
     //para que Mario no se escape
     if (this.x <= 0){
         this.x = 0;
@@ -86,12 +91,7 @@ Mario.prototype.move = function (){
     if (this.y <= 0){
         this.y = 0;
     }
-
-    //gravedad
-    if (this.isJumping()){
-         this.y - this.g;
-    }
-};
+}
 
 Mario.prototype.isJumping = function () {
     return this.y < this.y0; 
@@ -99,7 +99,7 @@ Mario.prototype.isJumping = function () {
 
 Mario.prototype.jump = function() {
     if (!this.isJumping()){
-      this.vy += this.v;
+      this.vy -= this.v;
     }
 };
 
@@ -112,13 +112,30 @@ Mario.prototype.collide = function(obstacles) {
     collisions.forEach(function(obstacle) {
         if (obstacle instanceof Obstacle){
             this.collideWithBrick(obstacle);
-            debugger;
         }
+
     }.bind(this))
 } 
 
 Mario.prototype.collideWithBrick = function(brick) {
     // Pizarra
+    if (this.x + this.width >= brick.x && this.y + this.height > brick.y){
+      //puto background. 
+        this.vx = 0;  
+    }
+    
+    // if (this.x + this.width >= brick.x && this.x + this.width <= brick.x + brick.width && this.y + this.height == brick.y){
+    //     console.log('up');
+    //     debugger;
+    //     !this.isJumping();
+    //     this.vy = 0;
+    // } else if (this.x + this.width >= brick.x && this.y + this.height > brick.y){
+    //     //puto background. 
+    //     this.vx = 0;
+    // } else if (this.x < brick.x + brick.width && this.y + this.height > brick.y){
+    //     debugger;
+    //     this.vx = 0;
+    // }
 }
 
 Mario.prototype.RIGHT = 39;
@@ -135,9 +152,7 @@ Mario.prototype.onKeyDown = function (code){
             this.vx = -10;
             break;
         case this.TOP:
-            if (!this.isJumping()){
-            this.vy = -15;
-            }
+            this.jump();
             break;
     }
 };

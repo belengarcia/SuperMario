@@ -60,9 +60,9 @@ Game.prototype.createObstacles = function () {
     this.obstacles.push(
 
     // tubos piso 0
-     new Obstacle (this.ctx, 1205, 450, 90, 90),
+    // new Obstacle (this.ctx, 1205, 450, 90, 90),
     // new Obstacle(this.ctx, 1635, 407, 90, 132),
-    // new Obstacle(this.ctx, 1979, 365, 90, 175),
+     new Obstacle(this.ctx, 1979, 365, 90, 175),
     // new Obstacle(this.ctx, 2453, 365, 90, 175),
     // new Obstacle(this.ctx, 7015, 450, 90, 90),
     // new Obstacle(this.ctx, 7705, 450, 90, 90),
@@ -85,6 +85,7 @@ Game.prototype.createObstacles = function () {
 
 Game.prototype.checkCollisions = function () {
     this.mario.collide(this.obstacles);
+    
 };
 
 Game.prototype.RIGHT = 39;

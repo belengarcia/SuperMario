@@ -9,10 +9,10 @@ function Background(ctx) {
 
     this.img = new Image();
     this.img.src = 'img/bk2.png'
-    }
+}
 
 Background.prototype.draw = function() {
-    console.log('Back: ', this.x);
+    //console.log('Back: ', this.x);
     this.ctx.drawImage(
         this.img,
         this.x,
@@ -24,9 +24,10 @@ Background.prototype.draw = function() {
 
 Background.prototype.move = function() {
     this.x += this.vx;
+    
     //para que se pare cuando llega al final
     if (this.x + this.width < this.ctx.canvas.width || this.x >= 0){
-        this.vx = 0;
+        this.x = 0;
     }
 
 }
@@ -36,11 +37,13 @@ Background.prototype.LEFT = 37;
 Background.prototype.TOP = 38;
 Background.prototype.DOWN = 40;
 
-Background.prototype.onKeyDown = function (code, player){
+Background.prototype.onKeyDown = function (code, playerX){
     switch (code){
         case this.RIGHT:
-            if(player >= (this.ctx.canvas.width/2)) {
+            if(playerX >= (this.ctx.canvas.width/2)) {
                 this.vx = -10;
+            }else{
+                console.log("Press right but background is quiet");
             }
             break;
         case this.LEFT:
@@ -49,5 +52,7 @@ Background.prototype.onKeyDown = function (code, player){
 };
 
 Background.prototype.onKeyUp = function (code){
+    if (code === this.TOP) return;
+
     this.vx = 0;
 };
