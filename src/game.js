@@ -47,11 +47,11 @@ Game.prototype.clearAll = function (){
 
 Game.prototype.setKeyboardListeners = function (){
     document.onkeydown = function(event) {
-        this.onKeyDown(event.keyCode);
+        this.onKeyDown(event);
       }.bind(this);
     
       document.onkeyup = function(event) {
-        this.onKeyUp(event.keyCode);
+        this.onKeyUp(event);
       }.bind(this);
 // esta la he copiado tal cual y no la entiendo!
 }
@@ -60,9 +60,9 @@ Game.prototype.createObstacles = function () {
     this.obstacles.push(
 
     // tubos piso 0
-    // new Obstacle (this.ctx, 1205, 450, 90, 90),
+     new Obstacle (this.ctx, 1240, 450, 90, 90),
     // new Obstacle(this.ctx, 1635, 407, 90, 132),
-     new Obstacle(this.ctx, 1979, 365, 90, 175),
+    // new Obstacle(this.ctx, 1979, 365, 90, 175),
     // new Obstacle(this.ctx, 2453, 365, 90, 175),
     // new Obstacle(this.ctx, 7015, 450, 90, 90),
     // new Obstacle(this.ctx, 7705, 450, 90, 90),
@@ -84,8 +84,13 @@ Game.prototype.createObstacles = function () {
 };
 
 Game.prototype.checkCollisions = function () {
-    this.mario.collide(this.obstacles);
-    
+    var collitions = this.mario.checkCollisions(this.obstacles);
+    if (collitions.length > 0 && this.mario.isBloqued) {
+        this.bk.vx = 0;
+        this.bk.canMove = false;
+    } else {
+        this.bk.canMove = true;
+    }
 };
 
 Game.prototype.RIGHT = 39;
@@ -93,12 +98,12 @@ Game.prototype.LEFT = 37;
 Game.prototype.TOP = 38;
 Game.prototype.DOWN = 40;
 
-Game.prototype.onKeyDown = function (code){
-    this.mario.onKeyDown(code);
-    this.bk.onKeyDown(code, this.mario.x)
+Game.prototype.onKeyDown = function (event){
+    this.mario.onKeyEvent(event);
+    this.bk.onKeyDown(event.keyCode, this.mario.x);
 };
 
-Game.prototype.onKeyUp = function (code){
-    this.mario.onKeyUp(code);
-    this.bk.onKeyUp(code);
+Game.prototype.onKeyUp = function (event){
+    this.mario.onKeyEvent(event);
+    this.bk.onKeyUp(event.keyCode);
 };

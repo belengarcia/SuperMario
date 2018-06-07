@@ -8,7 +8,8 @@ function Background(ctx) {
     this.vx = 0;
 
     this.img = new Image();
-    this.img.src = 'img/bk2.png'
+    this.img.src = 'img/bk2.png';
+    this.canMove = true;
 }
 
 Background.prototype.draw = function() {
@@ -38,17 +39,18 @@ Background.prototype.TOP = 38;
 Background.prototype.DOWN = 40;
 
 Background.prototype.onKeyDown = function (code, playerX){
-    switch (code){
-        case this.RIGHT:
-            if(playerX >= (this.ctx.canvas.width/2)) {
-                this.vx = -10;
-            }else{
-                console.log("Press right but background is quiet");
-            }
-            break;
-        case this.LEFT:
-            this.vx = 10;
+    if (this.canMove) {
+        switch (code){
+            case this.RIGHT:
+                if(playerX >= (this.ctx.canvas.width/2)) {
+                    this.vx = -10;
+                }
+                break;
+            case this.LEFT:
+                this.vx = 10;
+        }
     }
+   
 };
 
 Background.prototype.onKeyUp = function (code){
