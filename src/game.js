@@ -60,7 +60,7 @@ Game.prototype.createObstacles = function () {
     this.obstacles.push(
 
     // tubos piso 0
-     new Obstacle (this.ctx, 1240, 450, 90, 90),
+     new Obstacle (this.ctx, 1205, 450, 90, 90),
     // new Obstacle(this.ctx, 1635, 407, 90, 132),
     // new Obstacle(this.ctx, 1979, 365, 90, 175),
     // new Obstacle(this.ctx, 2453, 365, 90, 175),
@@ -84,7 +84,13 @@ Game.prototype.createObstacles = function () {
 };
 
 Game.prototype.checkCollisions = function () {
-    this.mario.checkCollisions(this.obstacles);
+    var crashPipe = this.mario.checkCollisions(this.obstacles);
+    if (crashPipe.length > 0 && this.mario.isBloqued) {
+        this.bk.canMove = false;
+    } else {
+        this.bk.canMove = true;
+    }
+
     // var collitions = this.mario.checkCollisions(this.obstacles);
     // if (collitions.length > 0 /*&& this.mario.isBloqued*/) {
     //     this.bk.vx = 0;

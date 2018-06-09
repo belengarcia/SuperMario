@@ -29,12 +29,16 @@ Background.prototype.draw = function() {
 
 Background.prototype.move = function(mario) {
     if (this.movements.right) {
-        if (mario >= this.ctx.canvas.width / 2){
+        if (mario >= this.ctx.canvas.width / 2 && this.canMove){
             this.x -= this.vx;
         }
-    } else if (this.movements.left) {
+    } else if (this.movements.left && this.canMove) {
         this.x += this.vx;
-    }
+    } 
+    //else if (!this.canMove) {
+    //     console.log(this.canMove);
+    //     this.vx = 0;
+    // }
   
     // para que se pare cuando llega al final
     if (this.x + this.width < this.ctx.canvas.width || this.x >= 0){
