@@ -4,12 +4,11 @@ function Background(ctx) {
     this.y = 0;
     this.width = 9126;
     this.height = this.ctx.canvas.height;
-
     this.vx = 10;
 
     this.img = new Image();
     this.img.src = 'img/bk2.png';
-    this.canMove = true;
+    this.isBloqued = false;
 
     this.movements = {
         right: false,
@@ -28,19 +27,20 @@ Background.prototype.draw = function() {
 };
 
 Background.prototype.move = function(mario) {
+    console.log({mario: mario, bk: this.x});
+    
+    if(mario.isBloqued) return;
+
     if (this.movements.right) {
-        if (mario >= this.ctx.canvas.width / 2 && this.canMove){
+        if (mario >= this.ctx.canvas.width / 2 && !this.isBloqued){
             this.x -= this.vx;
         }
-    } else if (this.movements.left && this.canMove) {
+    }
+    
+    if (this.movements.left && !this.isBloqued) {
         this.x += this.vx;
-    } 
-    //else if (!this.canMove) {
-    //     console.log(this.canMove);
-    //     this.vx = 0;
-    // }
-  
-    // para que se pare cuando llega al final
+    }
+
     if (this.x + this.width < this.ctx.canvas.width || this.x >= 0){
         this.x = 0;
     }
@@ -51,7 +51,6 @@ Background.prototype.RIGHT = 39;
 Background.prototype.LEFT = 37;
 Background.prototype.TOP = 38;
 Background.prototype.DOWN = 40;
-
 
 Background.prototype.onKeyEvent = function (event){
     var state = event.type === 'keydown' ? true : false;

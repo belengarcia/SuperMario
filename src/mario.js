@@ -27,8 +27,6 @@ function Mario(ctx) {
 
     this.countFrames = 0;
     this.isBloqued = false;
-    this.isJumping = false;
-
     
     this.movements = {
         up: false,
@@ -45,12 +43,13 @@ Mario.prototype.draw = function() {
         0,
         this.img.width/this.img.frames,
         this.img.height,
-
         Math.min(this.x, this.ctx.canvas.width / 2),
         this.y,
         this.width,
         this.height
     )
+
+    this.ctx.strokeRect(this.x, this.y, this.width, this.height)
 
     this.countFrames++;
 
@@ -71,7 +70,6 @@ Mario.prototype.animate = function () {
     if (this.isDownsideY()) {
         this.y = this.y0;
         this.vy = 0;
-        this.isJumping = false;
     }
 
     this.checkMarioIsInsideScreen();
@@ -91,9 +89,9 @@ Mario.prototype.animatStop = function() {
 }
 
 Mario.prototype.move = function () {
+    //console.log(this.isBloqued)
 
-    if (this.movements.up && !this.isJumping) {
-        this.isJumping = true;
+    if (this.movements.up && !this.isJumping()) {
         this.vy = -15;
     }
     
@@ -120,30 +118,53 @@ Mario.prototype.checkMarioIsInsideScreen = function(){
     }
 }
 
-Mario.prototype.checkCollisions = function(obstacles) {
+Mario.prototype.checkCollisions = function(obstacles, bk) {
     var collisions = obstacles.filter(function(obstacle) {
         return obstacle.collide(this);
     }.bind(this));
 
+    this.y0 = this.ctx.canvas.height - this.height - 60;
+
     collisions.forEach(function(obstacle) {
         if (obstacle instanceof Obstacle) {
-            this.collideWithBrick(obstacle);
+            this.collideWithBrick(obstacle, bk);
         }
     }.bind(this));
 
     return collisions;
 } 
 
-Mario.prototype.collideWithBrick = function(brick) {
-    if (this.x + this.width >= brick.x && this.x < brick.x + brick.width) {
-        this.x = brick.x - this.width;
+Mario.prototype.isJumping = function() {
+    return this.y < this.y0;
+};
+
+Mario.prototype.collideWithBrick = function(brick, bk) {
+    if ((this.x < brick.x + brick.width || brick.x < this.x + this.width) && this.y >= brick.y) {
         this.isBloqued = true;
         this.movements.right = false;
-    } else if (this.x <= brick.x + brick.width) {
-        debugger;
-        this.x = brick.x + brick.width;
         this.movements.left = false;
-        this.isBloqued = true;
+
+        if (this.x > brick.x) {
+            this.x = brick.x + brick.width;
+            
+            if (brick.bkAtBehind) {
+                bk.x = brick.bkAtBehind;
+            } else {
+                brick.bkAtBehind = bk.x;
+            }
+        } else {
+            this.x = brick.x - this.width;
+
+            if (brick.bkAtFront) {
+                bk.x = brick.bkAtFront;
+            } else {
+                brick.bkAtFront = bk.x;
+            }
+        }
+    } else if (this.vy > 0) {
+        this.movements.up = false;
+        this.movements.down = false;
+        this.y0 = brick.y - this.height;
     }
 }
 

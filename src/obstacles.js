@@ -6,20 +6,24 @@ function Obstacle(ctx, x, y, width, height) {
     
     this.width = width;
     this.height = height;
+
+    this.bkAtBehind = null;
+    this.bkAtFront = null;
 }
 
- Obstacle.prototype.draw = function() {
-    this.ctx.fillStyle = '#FF0000';
-    this.ctx.fillRect(
-        this.x,
-        this.y,
-        this.width, 
-        this.height);
- };
+//  Obstacle.prototype.draw = function() {
+//     this.ctx.fillRect(
+//         this.x,
+//         this.y,
+//         this.width, 
+//         this.height);
+//  };
 
- Obstacle.prototype.collide = function(mario) {
-    return !(this.x + this.width  < mario.x || 
+Obstacle.prototype.collide = function(mario) {
+    return !(
+        this.x + this.width  < mario.x || 
         mario.x + mario.width < this.x ||
         this.y + this.height < mario.y ||
-        mario.y + mario.height < this.y);
+        mario.y + mario.height < this.y
+    );
  };
