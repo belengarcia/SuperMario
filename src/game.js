@@ -33,7 +33,7 @@ Game.prototype.drawObstacles = function (){
 
 Game.prototype.moveAll = function (){
     this.mario.move();
-    this.bk.move();
+    this.bk.move(this.mario.x);
 }
 
 Game.prototype.clearAll = function (){
@@ -84,13 +84,14 @@ Game.prototype.createObstacles = function () {
 };
 
 Game.prototype.checkCollisions = function () {
-    var collitions = this.mario.checkCollisions(this.obstacles);
-    if (collitions.length > 0 && this.mario.isBloqued) {
-        this.bk.vx = 0;
-        this.bk.canMove = false;
-    } else {
-        this.bk.canMove = true;
-    }
+    this.mario.checkCollisions(this.obstacles);
+    // var collitions = this.mario.checkCollisions(this.obstacles);
+    // if (collitions.length > 0 /*&& this.mario.isBloqued*/) {
+    //     this.bk.vx = 0;
+    //     this.bk.canMove = false;
+    // } else {
+    //     this.bk.canMove = true;
+    // }
 };
 
 Game.prototype.RIGHT = 39;
@@ -100,10 +101,10 @@ Game.prototype.DOWN = 40;
 
 Game.prototype.onKeyDown = function (event){
     this.mario.onKeyEvent(event);
-    this.bk.onKeyDown(event.keyCode, this.mario.x);
+    this.bk.onKeyEvent(event);
 };
 
 Game.prototype.onKeyUp = function (event){
     this.mario.onKeyEvent(event);
-    this.bk.onKeyUp(event.keyCode);
+    this.bk.onKeyEvent(event);
 };

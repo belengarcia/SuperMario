@@ -26,7 +26,7 @@ function Mario(ctx) {
     this.img.animateEvery = 10;
 
     this.countFrames = 0;
-    this.isBloqued = false;
+    //this.isBloqued = false;
     
     this.movements = {
         up: false,
@@ -73,6 +73,8 @@ Mario.prototype.animate = function () {
         this.vy = 0;
         this.isJumping = false;
     }
+
+    this.checkMarioIsInsideScreen();
 };
 
 Mario.prototype.animateRun = function() {
@@ -105,7 +107,6 @@ Mario.prototype.move = function () {
         this.vx = 0;
         this.animatStop();
     }
-    // this.checkMarioIsInsideScreen();
 };
 
 Mario.prototype.checkMarioIsInsideScreen = function(){
@@ -135,8 +136,9 @@ Mario.prototype.checkCollisions = function(obstacles) {
 
 Mario.prototype.collideWithBrick = function(brick) {
     if (this.x + this.width >= brick.x && this.x < brick.x + brick.width) {
+        debugger;
         this.vx = 0;
-        this.x = brick.x - this.width;
+        // this.x = brick.x - this.width;
         this.movements.right = false;
     } else if (brick.x + brick.width >= this.x && brick.x < this.x + this.width) {
         this.vx = 0;

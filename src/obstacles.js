@@ -6,7 +6,6 @@ function Obstacle(ctx, x, y, width, height) {
     
     this.width = width;
     this.height = height;
-    this.logged = false;
 }
 
  Obstacle.prototype.draw = function() {
