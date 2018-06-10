@@ -19,7 +19,7 @@ function Mario(ctx) {
     this.g = 0.5;
 
     this.img = new Image();
-    this.img.src = 'img/mario.png'
+    this.img.src = 'img/mario-sprite.png'
 
     this.img.frames = 3;
     this.img.frameIndex = 0;
@@ -43,13 +43,12 @@ Mario.prototype.draw = function() {
         0,
         this.img.width/this.img.frames,
         this.img.height,
+        
         Math.min(this.x, this.ctx.canvas.width / 2),
         this.y,
         this.width,
         this.height
     )
-
-    //this.ctx.strokeRect(this.x, this.y, this.width, this.height)
 
     this.countFrames++;
 
@@ -85,8 +84,12 @@ Mario.prototype.animateRun = function() {
 }
 
 Mario.prototype.animatStop = function() {
-    this.img.frameIndex = 0;
+    this.img.frameIndex = 2;
 }
+
+Mario.prototype.isJumping = function() {
+    return this.y < this.y0;
+};
 
 Mario.prototype.move = function () {
 
@@ -108,16 +111,15 @@ Mario.prototype.move = function () {
 
 Mario.prototype.checkMarioIsInsideScreen = function(){
     if (this.x <= 0){
-        //esto no funciona para el final del background
         this.x = 0;
     }
 
     if (this.y <= 0){
-        this.y = 0;
+        this.vy = 5;
     }
 }
 
-Mario.prototype.checkCollisions = function(obstacles, bk) {
+Mario.prototype.checkCollisions = function(obstacles) {
     var collisions = obstacles.filter(function(obstacle) {
         return obstacle.collide(this);
     }.bind(this));
@@ -126,47 +128,37 @@ Mario.prototype.checkCollisions = function(obstacles, bk) {
 
     collisions.forEach(function(obstacle) {
         if (obstacle instanceof Obstacle) {
-            this.collideWithBrick(obstacle, bk);
+            this.collideWithBrick(obstacle);
+        }
+        if (obstacle instanceof Gap) {
+            this.collideWithGap(obstacle);
         }
     }.bind(this));
 
     return collisions;
 } 
 
-Mario.prototype.isJumping = function() {
-    return this.y < this.y0;
-};
-
 Mario.prototype.collideWithBrick = function(brick) {
 
-    // if ((this.x < brick.x + brick.width || brick.x < this.x + this.width) && this.y >= brick.y) {
-    //     this.isBloqued = true;
-    //     this.movements.right = false;
-    //     this.movements.left = false;
+    if ((this.x < brick.x + brick.width || brick.x < this.x + this.width) && this.y >= brick.y) {
+        this.isBloqued = true;
+        this.movements.right = false;
+        this.movements.left = false;
 
-    //     if (this.x > brick.x) {
-    //         this.x = brick.x + brick.width;
-    //     } else {
-    //         this.x = brick.x - this.width;
-    //     } 
-    // }
-    // else 
-    if (this.vy > 0) {
+        if (this.x > brick.x) {
+            this.x = brick.x + brick.width;
+        } else {
+            this.x = brick.x - this.width;
+        } 
+    } else if (this.vy > 0) {
+        //debugger;
         this.movements.up = false;
-        this.movements.down = false;
         this.y0 = brick.y - this.height;
-        console.log(this.x, this.x + this.width, brick.x, brick.x + brick.width)
-     } else if (this.vy < 0){
-        this.movements.up = false;
-        this.movements.down = false;
-        this.vy = 10;
      }
-
-
 }
 
-Mario.prototype.isMoving = function() {
-    return this.movements.right || this.movements.left;
+Mario.prototype.collideWithGap = function(gap) {
+    console.log('hole');
 }
 
 Mario.prototype.RIGHT = 39;

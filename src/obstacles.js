@@ -17,6 +17,7 @@ function Obstacle(ctx, x, y, width, height) {
 //  };
 
 Obstacle.prototype.collide = function(mario) {
+
     return !(
         this.x + this.width  < mario.x || 
         mario.x + mario.width < this.x ||

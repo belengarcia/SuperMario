@@ -7,7 +7,7 @@ function Background(ctx) {
     this.vx = 10;
 
     this.img = new Image();
-    this.img.src = 'img/bk2.png';
+    this.img.src = 'img/bk5.png';
     this.isBloqued = false;
 
     this.movements = {
@@ -41,11 +41,13 @@ Background.prototype.move = function(mario) {
         this.x += this.vx;
     }
 
-    if (this.x + this.width < this.ctx.canvas.width || this.x >= 0){
+    // para que el background no se escape
+    if (this.x >= 0){
         this.x = 0;
+    } else if (mario > this.width - this.ctx.canvas.width / 2){
+        this.x = -(this.width-this.ctx.canvas.width)
     }
-
-}
+} 
 
 Background.prototype.RIGHT = 39;
 Background.prototype.LEFT = 37;
