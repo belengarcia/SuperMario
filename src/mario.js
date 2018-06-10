@@ -89,7 +89,6 @@ Mario.prototype.animatStop = function() {
 }
 
 Mario.prototype.move = function () {
-    //console.log(this.isBloqued)
 
     if (this.movements.up && !this.isJumping()) {
         this.vy = -15;
@@ -138,34 +137,32 @@ Mario.prototype.isJumping = function() {
     return this.y < this.y0;
 };
 
-Mario.prototype.collideWithBrick = function(brick, bk) {
-    if ((this.x < brick.x + brick.width || brick.x < this.x + this.width) && this.y >= brick.y) {
-        this.isBloqued = true;
-        this.movements.right = false;
-        this.movements.left = false;
+Mario.prototype.collideWithBrick = function(brick) {
 
-        if (this.x > brick.x) {
-            this.x = brick.x + brick.width;
-            
-            if (brick.bkAtBehind) {
-                bk.x = brick.bkAtBehind;
-            } else {
-                brick.bkAtBehind = bk.x;
-            }
-        } else {
-            this.x = brick.x - this.width;
+    // if ((this.x < brick.x + brick.width || brick.x < this.x + this.width) && this.y >= brick.y) {
+    //     this.isBloqued = true;
+    //     this.movements.right = false;
+    //     this.movements.left = false;
 
-            if (brick.bkAtFront) {
-                bk.x = brick.bkAtFront;
-            } else {
-                brick.bkAtFront = bk.x;
-            }
-        }
-    } else if (this.vy > 0) {
+    //     if (this.x > brick.x) {
+    //         this.x = brick.x + brick.width;
+    //     } else {
+    //         this.x = brick.x - this.width;
+    //     } 
+    // }
+    // else 
+    if (this.vy > 0) {
         this.movements.up = false;
         this.movements.down = false;
         this.y0 = brick.y - this.height;
-    }
+        console.log(this.x, this.x + this.width, brick.x, brick.x + brick.width)
+     } else if (this.vy < 0){
+        this.movements.up = false;
+        this.movements.down = false;
+        this.vy = 10;
+     }
+
+
 }
 
 Mario.prototype.isMoving = function() {

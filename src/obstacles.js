@@ -6,9 +6,6 @@ function Obstacle(ctx, x, y, width, height) {
     
     this.width = width;
     this.height = height;
-
-    this.bkAtBehind = null;
-    this.bkAtFront = null;
 }
 
 //  Obstacle.prototype.draw = function() {

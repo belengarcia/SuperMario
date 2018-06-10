@@ -27,7 +27,6 @@ Background.prototype.draw = function() {
 };
 
 Background.prototype.move = function(mario) {
-    console.log({mario: mario, bk: this.x});
     
     if(mario.isBloqued) return;
 
