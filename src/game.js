@@ -2,6 +2,7 @@ function Game (canvasElement){
     this.ctx = canvasElement.getContext("2d");
     this.bk = new Background(this.ctx);
     this.mario = new Mario(this.ctx);
+    this.guide = new Guide(this.ctx, 600, 0, 1, 600)
     this.obstacles = [];
 
     this.setKeyboardListeners();
@@ -21,6 +22,7 @@ Game.prototype.start = function(){
 Game.prototype.drawAll = function (){
     this.bk.draw();
     this.mario.draw();
+    //this.guide.draw();
     //this.drawObstacles();
 }
 

@@ -32,8 +32,9 @@ Background.prototype.move = function(mario) {
     if(mario.isBloqued) return;
 
     if (this.movements.right) {
-        if (mario >= this.ctx.canvas.width / 2 && !this.isBloqued){
-            this.x -= this.vx;
+        if (mario >= (this.x - (this.ctx.canvas.width / 2)) && !this.isBloqued){
+            const pos = mario - (this.ctx.canvas.width /2);
+            this.x = pos - (pos * 2);
         }
     }
     
