@@ -130,9 +130,6 @@ Mario.prototype.checkCollisions = function(obstacles) {
         if (obstacle instanceof Obstacle) {
             this.collideWithBrick(obstacle);
         }
-        if (obstacle instanceof Gap) {
-            this.collideWithGap(obstacle);
-        }
     }.bind(this));
 
     return collisions;
@@ -154,11 +151,10 @@ Mario.prototype.collideWithBrick = function(brick) {
         //debugger;
         this.movements.up = false;
         this.y0 = brick.y - this.height;
-     }
-}
-
-Mario.prototype.collideWithGap = function(gap) {
-    console.log('hole');
+    } 
+    else if (this.vy < 0){
+        this.vy = 10;
+    }
 }
 
 Mario.prototype.RIGHT = 39;

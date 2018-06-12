@@ -25,3 +25,4 @@ Obstacle.prototype.collide = function(mario) {
         mario.y + mario.height < this.y
     );
  };
+

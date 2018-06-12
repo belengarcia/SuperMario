@@ -81,7 +81,7 @@ Game.prototype.onKeyUp = function (event){
 Game.prototype.createObstacles = function () {
     this.obstacles.push(
     // tubos piso 0
-     new Obstacle (this.ctx, 1205, 450, 90, 90),
+    new Obstacle (this.ctx, 1205, 450, 90, 90),
     new Obstacle(this.ctx, 1635, 407, 90, 132),
     new Obstacle(this.ctx, 1979, 365, 90, 175),
     new Obstacle(this.ctx, 2453, 365, 90, 175),
@@ -138,9 +138,6 @@ Game.prototype.createObstacles = function () {
     new Obstacle (this.ctx, 6716, 408, 46, 138),
     new Obstacle (this.ctx, 6760, 450, 46, 92),
     new Obstacle (this.ctx, 6802, 494, 46, 46),
-
-    //Gaps
-    new Gap (this.ctx, 1204, 200, 85, 62),
 
     )
 };
